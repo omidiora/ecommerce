@@ -3,24 +3,69 @@ from django.views.generic import ListView,DetailView
 from .models import Product
 
 
+class ProductFeaturedListView(ListView):
+    template_name="products/list.html"
+    def get_queryset(self,*args,**kwargs):
+          request=self.request
+          return Product.objects.all()
+           
+       
+
+
+# class ProductManager(models.Manager):
+#     def get_by_id(self,id):
+#         qs=self.get_queryset.filter(id=id)
+#         if qs.count()==1 :
+#             return qs.first()
+#         return None
+   
+   
+   
+
+class ProductFeaturedDetailView(DetailView):
+  
+    template_name="products/featured-detail.html"
+
+    def get_queryset(self,*args,**kwargs):
+        request=self.request
+        return Product.objects.all()
+        #   qs=Product.objects.get(pk=id)
+        #   js=qs.filter(featured=True)
+          
+    # def get_context_data(self,*args,**kwargs):
+    #     context=super(ProductFeaturedDetailView,self).get_context_data(*args,**kwargs)   
+    #     context['heloo']=js   
+    #     return context
+
+
+
+
+
 
 class ProductListView(ListView):
     queryset=Product.objects.all()
     template_name="products/list.html"
 
-    def get_context_data(self,*args,**kwargs):
-        context=super(ProductListView,self).get_context_data(*args,**kwargs)
-        return context
+    
+  
+
+    
+
+    # def get_object(self,*args,**kwargs):
+    #     request=self.request
+    #     pk=self.kwargs.get("pk")
+    #     instance=Product.objects.get_by_id(pk)
+    #     if instance is None:
+    #         raise Http404("product does not eist")
+    #     raise instance
+
+    
 
 
-class ProductDetailView(DetailView):
-    queryset=Product.objects.all()
-    template_name="products/detail.html"
 
-    def get_context_data(self,*args,**kwargs):
-        context=super(ProductDetailView,self).get_context_data(*args,**kwargs)
-        return context
-
+class ProductDetailView(DetailView,):
+     model=Product
+     template_name="products/detail.html"
 
 
 
